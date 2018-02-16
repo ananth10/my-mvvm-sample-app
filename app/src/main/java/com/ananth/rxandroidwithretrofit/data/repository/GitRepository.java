@@ -33,7 +33,7 @@ public class GitRepository {
             @Override
             protected void saveCallResult(@NonNull ProfileResponse item) {
                 System.out.println("Profile response:" + item.getResults());
-//                profileDao.saveProfile(item.getResults());
+                profileDao.saveProfile(item.getResults());
 
             }
 

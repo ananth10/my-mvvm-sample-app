@@ -44,7 +44,7 @@ public abstract class NetworkBoundResource<ResultType, RequestType> {
             @Override
             public void onResponse(Call<RequestType> call, Response<RequestType> response) {
                 result.removeSource(dbSource);
-//                saveResultAndReInit(response.body());
+                saveResultAndReInit(response.body());
                 System.out.println("response 123:" + response.body());
             }
 
