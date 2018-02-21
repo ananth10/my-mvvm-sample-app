@@ -1,74 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_marginTop="5dp"
-    android:layout_marginBottom="10dp"
-    android:layout_height="wrap_content">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tool="http://schemas.android.com/tools">
 
+    <data>
 
-    <TextView
-        android:id="@+id/title"
-        android:layout_toLeftOf="@+id/owner_lay"
+        <variable
+            name="repository"
+            type="com.ananth.rxandroidwithretrofit.data.local.entity.RepositoryEntity" />
+
+    </data>
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="5dp"
-        android:singleLine="true"
-        android:textStyle="bold"
-        android:text="Title"
-        android:textColor="@color/primaryText"
-        android:textSize="18sp" />
-
-    <TextView
-        android:id="@+id/description"
-        android:layout_toLeftOf="@+id/owner_lay"
-        android:layout_below="@+id/title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:singleLine="true"
-        android:layout_gravity="center"
-        android:layout_margin="5dp"
-        android:text="Description"
-        android:textColor="@color/secondaryText"
-        android:textSize="16sp" />
-
-    <TextView
-        android:id="@+id/url"
-        android:layout_toLeftOf="@+id/owner_lay"
-        android:layout_below="@+id/description"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:singleLine="true"
-        android:layout_gravity="center"
-        android:layout_margin="5dp"
-        android:text="url"
-        android:textColor="@color/colorPrimary"
-        android:textSize="16sp" />
-
-    <LinearLayout
-        android:id="@+id/owner_lay"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_margin="5dp"
-        android:orientation="vertical">
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="10dp">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/title"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Owner"
-            android:textStyle="bold"
+            android:layout_margin="5dp"
+            android:layout_toLeftOf="@+id/owner_lay"
+            android:singleLine="true"
+            android:text="@{repository.name}"
             android:textColor="@color/primaryText"
-            android:textSize="16sp" />
+            android:textSize="18sp"
+            android:textStyle="bold"
+            tool:text="Title" />
+
         <TextView
-            android:id="@+id/name"
+            android:id="@+id/description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/title"
+            android:layout_gravity="center"
+            android:layout_margin="5dp"
+            android:layout_toLeftOf="@+id/owner_lay"
+            android:singleLine="true"
+            android:text="@{repository.description}"
+            android:textColor="@color/secondaryText"
+            android:textSize="16sp"
+            tool:text="Description" />
+
+        <TextView
+            android:id="@+id/url"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/description"
+            android:layout_gravity="center"
+            android:layout_margin="5dp"
+            android:layout_toLeftOf="@+id/owner_lay"
+            android:singleLine="true"
+            android:text="@{repository.url}"
+            android:textColor="@color/colorPrimary"
+            android:textSize="16sp"
+            tool:text="url" />
+
+        <LinearLayout
+            android:id="@+id/owner_lay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="5dp"
-            android:text="Owner"
-            android:textColor="@color/colorAccent"
-            android:textSize="14sp" />
-    </LinearLayout>
-</RelativeLayout>
+            android:layout_alignParentRight="true"
+            android:layout_margin="5dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Owner"
+                android:textColor="@color/primaryText"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:textColor="@color/colorAccent"
+                android:text="@{repository.owner.login}"
+                android:textSize="14sp"
+                tool:text="Owner" />
+        </LinearLayout>
+    </RelativeLayout>
+</layout>

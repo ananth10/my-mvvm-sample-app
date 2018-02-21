@@ -3,10 +3,17 @@ package com.ananth.rxandroidwithretrofit.data.repository;
 import android.arch.lifecycle.LiveData;
 import android.support.annotation.NonNull;
 
-import com.ananth.rxandroidwithretrofit.data.local.dao.ProfileDao;
+import com.ananth.rxandroidwithretrofit.data.NetworkBoundResource;
+import com.ananth.rxandroidwithretrofit.data.Resource;
+import com.ananth.rxandroidwithretrofit.data.local.dao.GithubDao;
+import com.ananth.rxandroidwithretrofit.data.local.entity.FollowersEntity;
 import com.ananth.rxandroidwithretrofit.data.local.entity.ProfileEntity;
 import com.ananth.rxandroidwithretrofit.data.remote.api.GithubService;
 import com.ananth.rxandroidwithretrofit.data.remote.response.ProfileResponse;
+import com.ananth.rxandroidwithretrofit.utils.Constants;
+
+import java.util.List;
+
 import javax.inject.Inject;
 import retrofit2.Call;
 
@@ -16,42 +23,39 @@ import retrofit2.Call;
 
 public class GitRepository {
 
-    private final ProfileDao profileDao;
+    private final GithubDao githubDao;
     private final GithubService githubService;
 
 
     @Inject
-    public GitRepository(ProfileDao profileDao, GithubService githubService) {
-        this.profileDao = profileDao;
+    public GitRepository(GithubDao githubDao, GithubService githubService) {
+        this.githubDao = githubDao;
         this.githubService = githubService;
     }
 
 
-    public LiveData<Resource<ProfileEntity>> loadProfileData(String userName) {
-        return new NetworkBoundResource<ProfileEntity, ProfileResponse>() {
+    public LiveData<Resource<ProfileEntity>> loadProfileData() {
+        return new NetworkBoundResource<ProfileEntity, ProfileEntity>() {
 
             @Override
-            protected void saveCallResult(@NonNull ProfileResponse item) {
-                System.out.println("Profile response:" + item.getResults());
-                profileDao.saveProfile(item.getResults());
+            protected void saveCallResult(@NonNull ProfileEntity item) {
+//                System.out.println("Profile response:" + item.getName());
+                githubDao.saveProfile(item);
 
             }
-
 
             @NonNull
             @Override
             protected LiveData<ProfileEntity> loadFromDb() {
-                return profileDao.getProfile();
+                return githubDao.getProfile();
             }
             @NonNull
             @Override
-            protected Call<ProfileResponse> createCall() {
-                System.out.println("test12:" + "create call");
-                return githubService.getGithubUserInfo(userName);
+            protected Call<ProfileEntity> createCall() {
+                return githubService.getGithubUserInfo(Constants.mUserName);
             }
 
 
         }.getAsLiveData();
     }
-
 }

@@ -14,14 +14,10 @@
  * limitations under the License.
  */
 
-package com.ananth.rxandroidwithretrofit.data.repository;
+package com.ananth.rxandroidwithretrofit.data;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-
-import static com.ananth.rxandroidwithretrofit.data.repository.Status.ERROR;
-import static com.ananth.rxandroidwithretrofit.data.repository.Status.LOADING;
-import static com.ananth.rxandroidwithretrofit.data.repository.Status.SUCCESS;
 
 
 /**
@@ -42,14 +38,14 @@ public class Resource<T> {
     }
 
     public static <T> Resource<T> success(@NonNull T data) {
-        return new Resource<>(SUCCESS, data, null);
+        return new Resource<>(Status.SUCCESS, data, null);
     }
 
     public static <T> Resource<T> error(String msg, @Nullable T data) {
-        return new Resource<>(ERROR, data, msg);
+        return new Resource<>(Status.ERROR, data, msg);
     }
 
     public static <T> Resource<T> loading(@Nullable T data) {
-        return new Resource<>(LOADING, data, null);
+        return new Resource<>(Status.LOADING, data, null);
     }
 }

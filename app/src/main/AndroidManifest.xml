@@ -21,6 +21,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".view.profile.ProfileActivity" />
+        <activity android:name=".view.Repository.RepositoryList" />
+        <activity android:name=".view.followers.Followers" />
+        <activity android:name=".view.following.Following" />
     </application>
 
 </manifest>

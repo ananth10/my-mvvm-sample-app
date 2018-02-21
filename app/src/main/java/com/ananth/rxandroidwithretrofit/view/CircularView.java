@@ -139,6 +139,13 @@ public class CircularView extends ImageView {
         }
     }
 
+    @BindingAdapter({"loadImageUrl"})
+    public static void loadUrlImage(ImageView imageView, String url) {
+        if(!TextUtils.isEmpty(url)) {
+            Picasso.with(imageView.getContext()).load(url).into(imageView);
+
+        }
+    }
     public int getBorderColor() {
         return mBorderColor;
     }
@@ -165,6 +172,7 @@ public class CircularView extends ImageView {
         mBorderWidth = borderWidth;
         setup();
     }
+
 
     @Override
     public void setImageBitmap(Bitmap bm) {

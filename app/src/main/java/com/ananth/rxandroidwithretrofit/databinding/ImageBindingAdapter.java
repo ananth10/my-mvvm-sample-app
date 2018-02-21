@@ -33,6 +33,7 @@ public class ImageBindingAdapter {
 
                         @Override
                         public void onError() {
+                            System.out.println("ImageUrl 1: error");
                         }
                     });
 

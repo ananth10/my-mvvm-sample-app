@@ -1,4 +1,4 @@
-package com.ananth.rxandroidwithretrofit.data.repository;
+package com.ananth.rxandroidwithretrofit.data;
 
 /**
  * Created by Babu on 2/13/2018.

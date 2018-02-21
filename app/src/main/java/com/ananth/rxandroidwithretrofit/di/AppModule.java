@@ -4,7 +4,7 @@ import android.app.Application;
 import android.arch.persistence.room.Room;
 
 import com.ananth.rxandroidwithretrofit.data.local.GitDataBase;
-import com.ananth.rxandroidwithretrofit.data.local.dao.ProfileDao;
+import com.ananth.rxandroidwithretrofit.data.local.dao.GithubDao;
 import com.ananth.rxandroidwithretrofit.data.remote.ApiConstants;
 import com.ananth.rxandroidwithretrofit.data.remote.api.GithubService;
 
@@ -47,7 +47,7 @@ public class AppModule {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(ApiConstants.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
-//                .client(okHttpClient)
+                .client(okHttpClient)
                 .build();
         return retrofit.create(GithubService.class);
     }
@@ -60,7 +60,8 @@ public class AppModule {
 
     @Provides
     @Singleton
-    ProfileDao provideProfileDao(GitDataBase gitDataBase) {
+    GithubDao provideProfileDao(GitDataBase gitDataBase) {
         return gitDataBase.profileDao();
     }
+
 }

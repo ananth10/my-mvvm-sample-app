@@ -1,4 +1,4 @@
-package com.ananth.rxandroidwithretrofit.data.repository;
+package com.ananth.rxandroidwithretrofit.data;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MediatorLiveData;
@@ -8,9 +8,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.WorkerThread;
 
-
-import com.ananth.rxandroidwithretrofit.data.local.entity.ProfileEntity;
-import com.ananth.rxandroidwithretrofit.data.remote.response.ProfileResponse;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -24,7 +21,7 @@ public abstract class NetworkBoundResource<ResultType, RequestType> {
     private final MediatorLiveData<Resource<ResultType>> result = new MediatorLiveData<>();
 
     @MainThread
-    NetworkBoundResource() {
+    public NetworkBoundResource() {
         result.setValue(Resource.loading(null));
         LiveData<ResultType> dbSource = loadFromDb();
         result.addSource(dbSource, data -> {
@@ -45,11 +42,11 @@ public abstract class NetworkBoundResource<ResultType, RequestType> {
             public void onResponse(Call<RequestType> call, Response<RequestType> response) {
                 result.removeSource(dbSource);
                 saveResultAndReInit(response.body());
-                System.out.println("response 123:" + response.body());
             }
 
             @Override
             public void onFailure(Call<RequestType> call, Throwable t) {
+                t.printStackTrace();
                 onFetchFailed();
                 result.removeSource(dbSource);
                 result.addSource(dbSource, newData -> result.setValue(Resource.error(t.getMessage(), newData)));

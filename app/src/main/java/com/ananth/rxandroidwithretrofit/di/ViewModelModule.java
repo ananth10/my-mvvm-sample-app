@@ -3,6 +3,7 @@ package com.ananth.rxandroidwithretrofit.di;
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 
+import com.ananth.rxandroidwithretrofit.view.Repository.RepositoryViewModel;
 import com.ananth.rxandroidwithretrofit.view.profile.ProfileViewModel;
 import com.ananth.rxandroidwithretrofit.viewmodel.GitViewModelFactory;
 
@@ -22,6 +23,11 @@ public abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(ProfileViewModel.class)
     abstract ViewModel bindProfileViewModel(ProfileViewModel profileViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(RepositoryViewModel.class)
+    abstract ViewModel bindRepositoryViewModel(RepositoryViewModel repositoryViewModel);
 
     @Binds
     abstract ViewModelProvider.Factory bindsViewModelFactory(GitViewModelFactory gitViewModelFactory);
