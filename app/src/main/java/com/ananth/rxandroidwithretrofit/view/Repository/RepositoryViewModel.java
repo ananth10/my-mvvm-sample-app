@@ -2,6 +2,7 @@ package com.ananth.rxandroidwithretrofit.view.Repository;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
+import android.os.AsyncTask;
 
 import com.ananth.rxandroidwithretrofit.data.local.entity.RepositoryEntity;
 import com.ananth.rxandroidwithretrofit.data.repository.RepoRepository;
@@ -19,6 +20,7 @@ public class RepositoryViewModel extends ViewModel {
 
     private final LiveData<Resource<List<RepositoryEntity>>> listLiveData;
 
+
     @Inject
     public RepositoryViewModel(RepoRepository repoRepository) {
         listLiveData = repoRepository.loadRepository();
@@ -27,5 +29,6 @@ public class RepositoryViewModel extends ViewModel {
     LiveData<Resource<List<RepositoryEntity>>> getRepoList() {
         return listLiveData;
     }
+
 
 }

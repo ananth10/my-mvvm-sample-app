@@ -2,6 +2,7 @@ package com.ananth.rxandroidwithretrofit.data.repository;
 
 import android.arch.lifecycle.LiveData;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.ananth.rxandroidwithretrofit.data.NetworkBoundResource;
 import com.ananth.rxandroidwithretrofit.data.Resource;
@@ -9,8 +10,10 @@ import com.ananth.rxandroidwithretrofit.data.local.dao.GithubDao;
 import com.ananth.rxandroidwithretrofit.data.local.entity.FollowingEntity;
 import com.ananth.rxandroidwithretrofit.data.remote.api.GithubService;
 import com.ananth.rxandroidwithretrofit.utils.Constants;
+import com.ananth.rxandroidwithretrofit.utils.RateLimiter;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
@@ -27,6 +30,8 @@ public class FollowingRepository {
     private final GithubService githubService;
 
 
+    private RateLimiter<String> repoListRateLimit = new RateLimiter<>(10, TimeUnit.MINUTES);
+
     @Inject
     public FollowingRepository(GithubDao githubDao,GithubService githubService)
     {
@@ -40,6 +45,11 @@ public class FollowingRepository {
             @Override
             protected void saveCallResult(@NonNull List<FollowingEntity> item) {
                 githubDao.saveFollowing(item);
+            }
+
+            @Override
+            protected boolean shouldFetch(@Nullable List<FollowingEntity> data) {
+                return data == null || data.isEmpty() || repoListRateLimit.shouldFetch(Constants.mUserName);
             }
 
             @NonNull

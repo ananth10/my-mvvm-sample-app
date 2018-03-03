@@ -13,6 +13,8 @@ import com.ananth.rxandroidwithretrofit.data.local.entity.RepositoryEntity;
 
 import java.util.List;
 
+import static android.arch.persistence.room.OnConflictStrategy.REPLACE;
+
 /**
  * Created by Babu on 2/13/2018.
  */
@@ -20,29 +22,41 @@ import java.util.List;
 @Dao
 public interface GithubDao {
 
-    @Insert(onConflict =  OnConflictStrategy.REPLACE)
+    @Insert(onConflict =  REPLACE)
     void saveProfile(ProfileEntity profileEntity);
 
     @Query("SELECT * from profile")
     LiveData<ProfileEntity> getProfile();
 
-    @Insert(onConflict =  OnConflictStrategy.REPLACE)
+    @Query("DELETE FROM profile")
+    void deleteProfile();
+
+    @Insert(onConflict =  REPLACE)
     void saveFollowers(List<FollowersEntity> followEntities);
 
     @Query("SELECT * from followers")
     LiveData<List<FollowersEntity>> getFollowers();
 
+    @Query("DELETE FROM followers")
+    void deleteFollowers();
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = REPLACE)
     void saveFollowing(List<FollowingEntity> followingEntities);
 
     @Query("SELECT * from following")
     LiveData<List<FollowingEntity>> getFollowing();
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Query("DELETE FROM following")
+    void deleteFollowing();
+
+    @Insert(onConflict = REPLACE)
     void saveRepositories(List<RepositoryEntity> repositoryEntities);
 
     @Query("SELECT * from repository")
     LiveData<List<RepositoryEntity>> getRepositories();
+
+    @Query("DELETE FROM repository")
+    void deleteRepos();
+
 
 }

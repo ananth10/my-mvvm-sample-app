@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.ananth.rxandroidwithretrofit.R;
+import com.ananth.rxandroidwithretrofit.utils.Constants;
 import com.ananth.rxandroidwithretrofit.utils.PrefUtils;
 import com.ananth.rxandroidwithretrofit.view.profile.ProfileActivity;
 import com.rey.material.app.ThemeManager;
@@ -21,6 +22,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
+        Constants.mUserName="";
         ThemeManager.init(this, 1, 0, null);
         mUsername = (TextInputEditText) findViewById(R.id.username);
         if (!TextUtils.isEmpty(PrefUtils.getData("username", LoginActivity.this))) {
@@ -31,6 +33,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String username = mUsername.getText().toString().trim();
+                PrefUtils.saveData("username",username,LoginActivity.this);
                 if (username.length() > 0) {
                     startActivity(new Intent(LoginActivity.this, ProfileActivity.class).putExtra("username", username));
                     finish();

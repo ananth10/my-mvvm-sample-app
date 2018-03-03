@@ -1,7 +1,9 @@
 package com.ananth.rxandroidwithretrofit.data.repository;
 
 import android.arch.lifecycle.LiveData;
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.ananth.rxandroidwithretrofit.data.NetworkBoundResource;
 import com.ananth.rxandroidwithretrofit.data.Resource;
@@ -15,6 +17,7 @@ import com.ananth.rxandroidwithretrofit.utils.Constants;
 import java.util.List;
 
 import javax.inject.Inject;
+
 import retrofit2.Call;
 
 /**
@@ -39,9 +42,14 @@ public class GitRepository {
 
             @Override
             protected void saveCallResult(@NonNull ProfileEntity item) {
-//                System.out.println("Profile response:" + item.getName());
-                githubDao.saveProfile(item);
+                if (item != null)
+                    githubDao.saveProfile(item);
 
+            }
+
+            @Override
+            protected boolean shouldFetch(@Nullable ProfileEntity data) {
+                return data == null;
             }
 
             @NonNull
@@ -49,6 +57,7 @@ public class GitRepository {
             protected LiveData<ProfileEntity> loadFromDb() {
                 return githubDao.getProfile();
             }
+
             @NonNull
             @Override
             protected Call<ProfileEntity> createCall() {
@@ -57,5 +66,20 @@ public class GitRepository {
 
 
         }.getAsLiveData();
+    }
+
+    public void deleteAllTables() {
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... voids) {
+                githubDao.deleteProfile();
+                githubDao.deleteRepos();
+                githubDao.deleteFollowers();
+                githubDao.deleteFollowing();
+                return null;
+            }
+        }.execute();
+
+
     }
 }

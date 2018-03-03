@@ -1,9 +1,11 @@
 package com.ananth.rxandroidwithretrofit.view.profile;
 
+import android.arch.lifecycle.Observer;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -11,6 +13,8 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.ananth.rxandroidwithretrofit.R;
+import com.ananth.rxandroidwithretrofit.data.Resource;
+import com.ananth.rxandroidwithretrofit.data.local.entity.ProfileEntity;
 import com.ananth.rxandroidwithretrofit.databinding.ProfileBinding;
 import com.ananth.rxandroidwithretrofit.utils.Constants;
 import com.ananth.rxandroidwithretrofit.view.Repository.RepositoryList;
@@ -30,7 +34,6 @@ public class ProfileActivity extends AppCompatActivity implements ProfileClickHa
     ProfileViewModel profileViewModel;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,9 +46,11 @@ public class ProfileActivity extends AppCompatActivity implements ProfileClickHa
         if (getIntent() != null) {
             Constants.mUserName = getIntent().getStringExtra("username");
         }
+
         profileViewModel
                 .getProfileData()
-                .observe(this, profileData -> profileBinding.setProfile(profileData.data));
+                .observe(this, profileData ->
+                        profileBinding.setProfile(profileData.data));
     }
 
     @Override
@@ -61,6 +66,7 @@ public class ProfileActivity extends AppCompatActivity implements ProfileClickHa
             editor.clear();
             editor.commit();
             startActivity(new Intent(ProfileActivity.this, LoginActivity.class));
+            profileViewModel.deleteAll();
             finish();
             return true;
         }
@@ -83,12 +89,12 @@ public class ProfileActivity extends AppCompatActivity implements ProfileClickHa
     @Override
     public void onGistClick(String userName) {
 //        startActivity(new Intent(ProfileActivity.this, GistsList.class).putExtra("username", userName));
-        Toast.makeText(this,"Coming soon",Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "Coming soon", Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void onFollowerClick(String userName) {
-        startActivity(new Intent(ProfileActivity.this, Followers.class).putExtra("username", Constants.mUserName ));
+        startActivity(new Intent(ProfileActivity.this, Followers.class).putExtra("username", Constants.mUserName));
     }
 
     @Override

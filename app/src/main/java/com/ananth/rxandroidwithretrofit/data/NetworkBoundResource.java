@@ -9,6 +9,8 @@ import android.support.annotation.Nullable;
 import android.support.annotation.WorkerThread;
 
 
+import com.ananth.rxandroidwithretrofit.data.local.entity.ProfileEntity;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -56,12 +58,10 @@ public abstract class NetworkBoundResource<ResultType, RequestType> {
 
     @MainThread
     private void saveResultAndReInit(RequestType response) {
-        System.out.println("response12:" + response);
         new AsyncTask<Void, Void, Void>() {
 
             @Override
             protected Void doInBackground(Void... voids) {
-                System.out.println("response123:" + response);
                 saveCallResult(response);
                 return null;
             }
@@ -77,9 +77,7 @@ public abstract class NetworkBoundResource<ResultType, RequestType> {
     protected abstract void saveCallResult(@NonNull RequestType item);
 
     @MainThread
-    protected boolean shouldFetch(@Nullable ResultType data) {
-        return true;
-    }
+    protected abstract boolean shouldFetch(@Nullable ResultType data);
 
     @NonNull
     @MainThread

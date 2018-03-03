@@ -17,13 +17,21 @@ public class ProfileViewModel extends ViewModel {
 
     private final LiveData<Resource<ProfileEntity>> profileData;
 
+    GitRepository gitRepository;
+
     @Inject
     ProfileViewModel(GitRepository gitRepository) {
         profileData = gitRepository.loadProfileData();
+        this.gitRepository=gitRepository;
     }
 
     LiveData<Resource<ProfileEntity>> getProfileData() {
         return profileData;
+    }
+
+    void deleteAll()
+    {
+        gitRepository.deleteAllTables();
     }
 
 }

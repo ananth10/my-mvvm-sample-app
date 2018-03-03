@@ -39,7 +39,7 @@ dependencies {
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'jp.wasabeef:picasso-transformations:2.1.0'
     compile 'jp.wasabeef:recyclerview-animators:2.2.0'
-
+    debugImplementation 'com.amitshekhar.android:debug-db:1.0.3'
 
 //    compile 'android.arch.persistence.room:runtime:1.0.0'
 //    compile 'android.arch.lifecycle:runtime:1.0.0'
